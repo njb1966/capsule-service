@@ -4,14 +4,14 @@
 
 | Component | Choice | Rationale |
 |-----------|--------|-----------|
-| OS | Ubuntu 24.04 LTS | Long support cycle, excellent docs, predictable |
+| OS | Debian 13 (Trixie) | Conservative release cycle, minimal by default, rock solid for solo-operated servers |
 | Gemini server | Agate (Rust) | Actively maintained, simple config, solid TLS/SNI support |
 | Web server | Caddy | Auto-TLS via Let's Encrypt, simple config, reverse proxy built in |
 | Backend language | Go | Fast, single binary deploy, low memory, easy to maintain solo |
 | Database | SQLite | No separate DB server, trivial backup, sufficient for this scale |
 | File storage | Flat files on disk | Gemtext files are plain text — no object storage needed |
-| TLS (Gemini) | Let's Encrypt wildcard via DNS-01 challenge | Covers *.yourdomain.com with one cert |
-| TLS (Web UI) | Caddy auto-TLS | Handles yourdomain.com automatically |
+| TLS (Gemini) | Let's Encrypt wildcard via DNS-01 challenge | Covers *.gemcities.com with one cert |
+| TLS (Web UI) | Caddy auto-TLS | Handles gemcities.com automatically |
 | Process management | systemd | Standard, reliable, no extra tooling |
 | Backups | Restic → Backblaze B2 | Cheap, reliable, encrypted, incremental |
 
@@ -22,20 +22,22 @@
 Single VPS. No microservices. No container orchestration.
 
 ```
-8 vCPU / 24 GB RAM / 400 GB SSD / 600 Mbit/s port / Unlimited inbound
-~$12/month
+4 vCPU / 8 GB RAM / 150 GB SSD / 200 Mbit/s port / Unlimited traffic
+~$4/month
 ```
 
-This hardware is significantly over-specified for the load. Gemtext files average 2–5 KB. Even 50,000 users at the 50 MB cap each would require 2.5 TB — storage upgrades happen long before CPU or RAM becomes a concern. The generous spec provides headroom and avoids premature scaling decisions.
+This is still meaningfully over-specified for the actual workload. The Go binary, Agate, and Caddy together use under 100 MB RAM. Gemtext files average 2–5 KB. Storage is the only realistic binding constraint — at the 50 MB/user cap, 150 GB supports ~3,000 users at theoretical maximum. Real-world average usage is far lower (typical capsule is a handful of small files), putting practical capacity in the tens of thousands.
+
+**Install note (Debian):** Caddy, Agate, and Restic should be installed from their upstream releases, not the Debian apt repos — the packaged versions lag significantly behind. Go applications compile to a static binary with no OS-level dependencies.
 
 ---
 
 ## DNS Configuration (One-Time Setup)
 
 ```
-A     yourdomain.com          →  <server IP>
-A     *.yourdomain.com        →  <server IP>    # wildcard — covers all usernames
-A     www.yourdomain.com      →  <server IP>
+A     gemcities.com          →  <server IP>
+A     *.gemcities.com        →  <server IP>    # wildcard — covers all usernames
+A     www.gemcities.com      →  <server IP>
 ```
 
 The wildcard A record means every new user's subdomain resolves automatically with no DNS action required per user.
@@ -47,8 +49,8 @@ The wildcard A record means every new user's subdomain resolves automatically wi
 Use `acme.sh` or `certbot` with a DNS-01 challenge to obtain a wildcard certificate:
 
 ```
-*.yourdomain.com
-yourdomain.com
+*.gemcities.com
+gemcities.com
 ```
 
 This requires DNS API access (most registrars and DNS providers support this).
@@ -70,7 +72,7 @@ Agate uses SNI (Server Name Indication) to serve different content per subdomain
 
 Each capsule directory lives at `/srv/capsules/<username>/`.
 
-When Agate receives a request for `gemini://alice.yourdomain.com/index.gmi`, it serves `/srv/capsules/alice/index.gmi`.
+When Agate receives a request for `gemini://alice.gemcities.com/index.gmi`, it serves `/srv/capsules/alice/index.gmi`.
 
 ---
 
@@ -167,7 +169,7 @@ log_path = "/var/log/capsule-service/app.log"
 [email]
 smtp_host = "..."
 smtp_port = 587
-from_address = "noreply@yourdomain.com"
+from_address = "noreply@gemcities.com"
 
 [limits]
 max_file_size_bytes = 1048576   # 1 MB per file
@@ -185,7 +187,7 @@ bcrypt_cost = 12
 ## Caddy Configuration (Conceptual)
 
 ```
-yourdomain.com, www.yourdomain.com {
+gemcities.com, www.gemcities.com {
     root * /srv/capsule-editor/public
     file_server
     reverse_proxy /api/* 127.0.0.1:8080

@@ -80,7 +80,7 @@ Disk fills up, new writes fail, existing capsules may become unreadable.
 
 **Mitigations:**
 - 50 MB per-user cap enforced in application
-- 400 GB SSD — at 50 MB/user cap, theoretical max ~8,000 users at full capacity
+- 150 GB SSD — at 50 MB/user cap, theoretical max ~3,000 users at full capacity; real-world capacity far higher
 - Real-world average usage far lower (typical capsule is a handful of small files)
 - Monitoring alert at 70% disk usage
 - VPS storage upgrades available from provider if needed
@@ -95,7 +95,7 @@ Either the entire service or a specific user's capsule is targeted with high tra
 
 **Mitigations:**
 - Rate limiting at Caddy layer for web UI
-- 600 Mbit/s port — significant capacity for a small web service
+- 200 Mbit/s port — significant capacity for a small web service
 - Individual capsule can be temporarily suspended if it attracts attack traffic
 - VPS provider abuse reporting available for volumetric attacks
 - For sustained attacks: upstream provider filtering or temporary block of attacking IP ranges

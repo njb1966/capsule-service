@@ -4,13 +4,13 @@
 
 | Item | Monthly Cost |
 |------|-------------|
-| VPS (8 vCPU, 24 GB RAM, 400 GB SSD) | $12.00 |
-| Domain name (annualized) | ~$1.50 |
+| VPS (4 vCPU, 8 GB RAM, 150 GB SSD, Debian 13) | $4.00 |
+| Domain name — gemcities.com (annualized) | ~$1.50 |
 | Backblaze B2 backup storage (~50 GB) | ~$0.50 |
 | Transactional email — password resets (low volume) | ~$0.00 (free tier) |
-| **Total** | **~$14/month (~$168/year)** |
+| **Total** | **~$6/month (~$72/year)** |
 
-This is an exceptionally low cost base. A few dozen modest donations per year cover it entirely. The service does not require growth to remain financially viable.
+This is an exceptionally low cost base. A handful of modest donations per year cover it entirely. The service does not require growth to remain financially viable.
 
 ---
 
@@ -82,9 +82,9 @@ The service is not designed to scale to millions of users. The small web is inte
 
 However, if growth significantly exceeds expectations:
 
-**Storage:** At 50 MB/user, the 400 GB SSD holds ~8,000 users at maximum usage. In practice, average usage will be much lower (most capsules are a handful of small files). Storage upgrades are cheap and straightforward on most VPS providers.
+**Storage:** At 50 MB/user, the 150 GB SSD holds ~3,000 users at theoretical maximum. In practice, average usage will be far lower (most capsules are a handful of small files), putting real-world capacity well into the tens of thousands. Storage upgrades are cheap and straightforward on most VPS providers.
 
-**Compute:** Gemini is a simple, low-overhead protocol. 8 vCPU and 24 GB RAM is significantly over-provisioned for this workload. CPU is unlikely to ever be a constraint.
+**Compute:** Gemini is a simple, low-overhead protocol. 4 vCPU and 8 GB RAM is significantly over-provisioned for this workload. CPU is unlikely to ever be a constraint.
 
 **What to watch:** Disk usage percentage (alert at 70%), backup storage costs, and email sending volume (password resets).
 

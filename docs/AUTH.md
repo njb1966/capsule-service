@@ -2,7 +2,7 @@
 
 ## Registration Flow
 
-1. User visits `yourdomain.com` and clicks "Get a Capsule"
+1. User visits `gemcities.com` and clicks "Get a Capsule"
 2. Registration form collects: username, email, password
 3. Username validated client-side and server-side (see rules below)
 4. Password validated: minimum 10 characters, no other restrictions

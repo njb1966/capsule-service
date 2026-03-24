@@ -50,7 +50,7 @@ Require email verification before capsule goes live. Single most effective filte
 Plain-language ToS agreed to at registration. Establishes the rules clearly and provides the legal basis for account suspension.
 
 ### Layer 3 — Abuse Reporting
-Published abuse email address: `abuse@yourdomain.com`. Linked from every page of the web UI and from the service's own Gemini capsule. Monitored by the operator. Target: review and act within 48 hours of receiving a report.
+Published abuse email address: `abuse@gemcities.com`. Linked from every page of the web UI and from the service's own Gemini capsule. Monitored by the operator. Target: review and act within 48 hours of receiving a report.
 
 ### Layer 4 — Periodic Spot-Checks
 Occasional manual review of newly created capsules — not reading every word, just a brief check of new accounts. Think of this as a librarian walking the stacks, not surveillance. Catches obvious problems without automated monitoring.
@@ -117,11 +117,11 @@ Bookmark `cybertipline.org` now and keep it accessible.
 ## Pre-Launch Legal Checklist
 
 - [ ] Register DMCA designated agent at `copyright.gov/dmca-agent` ($6)
-- [ ] Publish Terms of Service at `yourdomain.com/terms`
-- [ ] Publish Privacy Policy at `yourdomain.com/privacy`
-- [ ] Publish DMCA procedure at `yourdomain.com/dmca`
-- [ ] Publish abuse contact: `abuse@yourdomain.com`
-- [ ] Publish security contact: `security@yourdomain.com`
+- [ ] Publish Terms of Service at `gemcities.com/terms`
+- [ ] Publish Privacy Policy at `gemcities.com/privacy`
+- [ ] Publish DMCA procedure at `gemcities.com/dmca`
+- [ ] Publish abuse contact: `abuse@gemcities.com`
+- [ ] Publish security contact: `security@gemcities.com`
 - [ ] Bookmark NCMEC CyberTipline: `cybertipline.org`
 - [ ] Consult a lawyer (1-hour review of ToS and liability exposure)
 - [ ] Create private incident log file

@@ -4,12 +4,12 @@
 
 Server and infrastructure setup. Nothing user-facing yet.
 
-- [ ] Register domain name
-- [ ] Provision VPS, install Ubuntu 24.04 LTS
+- [x] Register domain name — gemcities.com secured
+- [ ] Provision VPS, install Debian 13 (Trixie)
 - [ ] Initial server hardening: disable root SSH login, set up key-based auth only, configure UFW firewall
-- [ ] Configure wildcard DNS records (`*.yourdomain.com` → server IP)
+- [ ] Configure wildcard DNS records (`*.gemcities.com` → server IP)
 - [ ] Install Caddy
-- [ ] Obtain wildcard Let's Encrypt certificate via DNS-01 challenge (`*.yourdomain.com` + `yourdomain.com`)
+- [ ] Obtain wildcard Let's Encrypt certificate via DNS-01 challenge (`*.gemcities.com` + `gemcities.com`)
 - [ ] Configure certificate auto-renewal and test renewal process
 - [ ] Install and configure Agate Gemini server
 - [ ] Verify Agate serves correctly for a test subdomain
@@ -19,7 +19,7 @@ Server and infrastructure setup. Nothing user-facing yet.
 - [ ] Set up monitoring: disk usage alert at 70%, cert expiry alert at 30 days, backup failure alert
 - [ ] Register DMCA designated agent at copyright.gov/dmca-agent ($6)
 
-**Phase 1 complete when:** A test capsule is live and accessible at `gemini://test.yourdomain.com`, backups are running and tested.
+**Phase 1 complete when:** A test capsule is live and accessible at `gemini://test.gemcities.com`, backups are running and tested.
 
 ---
 
@@ -75,7 +75,7 @@ Private beta with a small group of real users.
 - [ ] Observe editor usability closely — this is the most important thing to get right
 - [ ] Fix reported issues: bugs, confusing UX, missing edge cases
 - [ ] No new features during this phase — only fixes
-- [ ] Create the service's own Gemini capsule at `gemini://yourdomain.com` explaining the project (use your own service)
+- [ ] Create the service's own Gemini capsule at `gemini://gemcities.com` explaining the project (use your own service)
 - [ ] Write the Terms of Service, Privacy Policy, and DMCA pages (have a lawyer review ToS)
 - [ ] Test backup restoration with real user data
 
