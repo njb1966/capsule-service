@@ -167,9 +167,9 @@ db_path = "/var/lib/capsule-service/users.db"
 log_path = "/var/log/capsule-service/app.log"
 
 [email]
-smtp_host = "..."
+smtp_host = "smtp.protonmail.ch"
 smtp_port = 587
-from_address = "noreply@gemcities.com"
+from_address = "admin@gemcities.com"
 
 [limits]
 max_file_size_bytes = 1048576   # 1 MB per file
