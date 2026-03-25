@@ -98,7 +98,7 @@ func (s *Server) handleRegister(w http.ResponseWriter, r *http.Request) {
 	if !emailRe.MatchString(req.Email) {
 		writeErr(w, http.StatusBadRequest, "INVALID_EMAIL"); return
 	}
-	if len(req.Password) < 8 {
+	if len(req.Password) < 10 {
 		writeErr(w, http.StatusBadRequest, "PASSWORD_TOO_SHORT"); return
 	}
 
