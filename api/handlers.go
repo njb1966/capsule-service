@@ -53,6 +53,7 @@ func (s *Server) Routes() http.Handler {
 	mux.Handle("DELETE /api/files/",      requireAuth(fileRL.middleware(http.HandlerFunc(s.handleFileDelete))))
 	mux.Handle("POST /api/files/rename",  requireAuth(fileRL.middleware(http.HandlerFunc(s.handleFileRename))))
 	mux.Handle("POST /api/files/mkdir",   requireAuth(fileRL.middleware(http.HandlerFunc(s.handleMkdir))))
+	mux.Handle("GET /api/account",        requireAuth(fileRL.middleware(http.HandlerFunc(s.handleGetAccount))))
 	mux.Handle("GET /api/export",         requireAuth(http.HandlerFunc(s.handleExport)))
 	mux.Handle("DELETE /api/account",     requireAuth(authRL.middleware(s.handleDeleteAccount)))
 
@@ -376,6 +377,16 @@ func (s *Server) handleMkdir(w http.ResponseWriter, r *http.Request) {
 		writeErr(w, http.StatusInternalServerError, "SERVER_ERROR"); return
 	}
 	writeJSON(w, http.StatusOK, map[string]string{"status": "OK"})
+}
+
+func (s *Server) handleGetAccount(w http.ResponseWriter, r *http.Request) {
+	claims := auth.GetClaims(r)
+	var storageBytes int64
+	s.db.QueryRow(`SELECT storage_bytes FROM users WHERE id=?`, claims.UserID).Scan(&storageBytes)
+	writeJSON(w, http.StatusOK, map[string]int64{
+		"storage_bytes":       storageBytes,
+		"storage_limit_bytes": s.cfg.Limits.MaxTotalStorageBytes,
+	})
 }
 
 func (s *Server) handleExport(w http.ResponseWriter, r *http.Request) {
