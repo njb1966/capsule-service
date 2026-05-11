@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"os/exec"
 	"strings"
 	"time"
 
@@ -193,8 +192,7 @@ func (s *Server) handleAdminChangeEmail(w http.ResponseWriter, r *http.Request) 
 		}
 	}()
 
-	// Also remove old Agate hostname since capsule may need restart
-	exec.Command("systemctl", "restart", "agate").Run()
+	s.scheduleAgateRestart()
 
 	writeJSON(w, http.StatusOK, map[string]string{"status": "OK"})
 }

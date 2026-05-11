@@ -11,6 +11,7 @@ import (
 	"os/exec"
 	"regexp"
 	"strings"
+	"sync"
 	"time"
 
 	"gemcities.com/capsule-service/auth"
@@ -24,11 +25,27 @@ type Server struct {
 	cfg     *config.Config
 	mailer  *email.Sender
 	files   *files.Manager
-	logger  *log.Logger
+	logger       *log.Logger
+
+	restartMu    sync.Mutex
+	restartTimer *time.Timer
 }
 
 func NewServer(db *sql.DB, cfg *config.Config, mailer *email.Sender, fm *files.Manager, logger *log.Logger) *Server {
 	return &Server{db: db, cfg: cfg, mailer: mailer, files: fm, logger: logger}
+}
+
+func (s *Server) scheduleAgateRestart() {
+	s.restartMu.Lock()
+	defer s.restartMu.Unlock()
+	if s.restartTimer != nil {
+		s.restartTimer.Stop()
+	}
+	s.restartTimer = time.AfterFunc(3*time.Second, func() {
+		if err := exec.Command("systemctl", "restart", "agate").Run(); err != nil {
+			s.logger.Printf("restart agate: %v", err)
+		}
+	})
 }
 
 func (s *Server) Routes() http.Handler {
@@ -470,9 +487,7 @@ func (s *Server) addAgateHost(username string) {
 		s.logger.Printf("write agate-hostnames: %v", err)
 		return
 	}
-	if err := exec.Command("systemctl", "restart", "agate").Run(); err != nil {
-		s.logger.Printf("restart agate: %v", err)
-	}
+	s.scheduleAgateRestart()
 }
 
 func (s *Server) removeAgateHost(username string) {
@@ -500,5 +515,5 @@ func (s *Server) removeAgateHost(username string) {
 		s.logger.Printf("write agate-hostnames: %v", err)
 		return
 	}
-	exec.Command("systemctl", "restart", "agate").Run()
+	s.scheduleAgateRestart()
 }
